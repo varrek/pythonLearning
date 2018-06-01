@@ -10,6 +10,7 @@
 # General Public License for more details.
 
 import sys
+import xml.sax.saxutils
 
 
 def main():
@@ -51,10 +52,10 @@ def print_line(line, color, maxwidth):
                 field = field.title()
                 field = field.replace(" And ", " and ")
                 if len(field) <= maxwidth:
-                    field = escape_html(field)
+                    field = xml.sax.saxutils.escape(field)
                 else:
                     field = "{0} ...".format(
-                            escape_html(field[:maxwidth]))
+                            xml.sax.saxutils.escape(field[:maxwidth]))
                 print("<td>{0}</td>".format(field))
     print("</tr>")
 
@@ -80,13 +81,6 @@ def extract_fields(line):
     if field:
         fields.append(field)  # adding the last field
     return fields
-
-
-def escape_html(text):
-    text = text.replace("&", "&amp;")
-    text = text.replace("<", "&lt;")
-    text = text.replace(">", "&gt;")
-    return text
 
 
 def print_end():
