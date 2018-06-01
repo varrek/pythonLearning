@@ -11,10 +11,11 @@
 
 import sys
 import xml.sax.saxutils
+import argparse
 
 
 def main():
-    maxwidth = 100
+    maxwidth, format = process_options()
     print_start()
     count = 0
     while True:
@@ -26,7 +27,7 @@ def main():
                 color = "white"
             else:
                 color = "lightyellow"
-            print_line(line, color, maxwidth)
+            print_line(line, color, maxwidth, format)
             count += 1
         except EOFError:
             break
@@ -37,8 +38,9 @@ def print_start():
     print("<table border='1'>")
 
 
-def print_line(line, color, maxwidth):
+def print_line(line, color, maxwidth, format):
     print("<tr bgcolor='{0}'>".format(color))
+    numberFormat = "<td align='right'>{{0:{0}}}</td>".format(format)
     fields = extract_fields(line)
     for field in fields:
         if not field:
@@ -47,7 +49,7 @@ def print_line(line, color, maxwidth):
             number = field.replace(",", "")
             try:
                 x = float(number)
-                print("<td align='right'>{0:d}</td>".format(round(x)))
+                print(numberFormat.format(x))
             except ValueError:
                 field = field.title()
                 field = field.replace(" And ", " and ")
@@ -82,6 +84,25 @@ def extract_fields(line):
         fields.append(field)  # adding the last field
     return fields
 
+def process_options():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--maxwidth', '-m', help="maxwidth", type= int, default = 100)
+    parser.add_argument('--format', '-f', help="format", type= str, default= ".0f")
+    args=parser.parse_args()
+    maxwidth = args.maxwidth
+    format = args.format
+    print (sys.argv[1])
+    if sys.argv[1] in ["-h", "--help"]:
+        print("""\
+            usage:
+            csv2html.py [maxwidth=int] [format=str] < infile.csv > outfile.html
+            maxwidth is an optional integer; if specified, it sets the maximum
+            number of characters that can be output for string fields,
+            otherwise a default of {0} characters is used.
+            format is the format to use for numbers; if not specified it
+            defaults to "{1}".""".format(maxwidth, format))
+        return None, None
+    return maxwidth, format
 
 def print_end():
     print("</table>")
