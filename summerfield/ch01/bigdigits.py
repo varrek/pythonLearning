@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
-
 Zero = ["  ***  ",
         " *   * ",
         "*     *",
@@ -31,12 +29,12 @@ try:
         while column < len(digits):
             number = int(digits[column])
             digit = Digits[number]
-            #res = ""
-            #for n in digit[row]:
+            # res = ""
+            # for n in digit[row]:
             #	if n == '*':
             #		n = number
             #	res += str(n)
-            #line += res + " "
+            # line += res + " "
             line += digit[row].replace('*', str(number))
             print(line)
             column += 1

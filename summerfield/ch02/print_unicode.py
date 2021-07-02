@@ -18,14 +18,14 @@ def print_unicode_table(word):
     print("-------  -----  ---  {0:-<40}".format(""))
 
     code = ord(" ")
-    end = min(0xD800, sys.maxunicode) # Stop at surrogate pairs
+    end = min(0xD800, sys.maxunicode)  # Stop at surrogate pairs
 
     while code < end:
         c = chr(code)
         name = unicodedata.name(c, "*** unknown ***")
         if word is None or word in name.lower():
             print("{0:7}  {0:5X}  {0:^3c}  {1}".format(
-                  code, name.title()))
+                code, name.title()))
         code += 1
 
 

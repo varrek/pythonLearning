@@ -9,9 +9,9 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # General Public License for more details.
 
+import argparse
 import sys
 import xml.sax.saxutils
-import argparse
 
 
 def main():
@@ -57,7 +57,7 @@ def print_line(line, color, maxwidth, format):
                     field = xml.sax.saxutils.escape(field)
                 else:
                     field = "{0} ...".format(
-                            xml.sax.saxutils.escape(field[:maxwidth]))
+                        xml.sax.saxutils.escape(field[:maxwidth]))
                 print("<td>{0}</td>".format(field))
     print("</tr>")
 
@@ -68,30 +68,31 @@ def extract_fields(line):
     quote = None
     for c in line:
         if c in "\"'":
-            if quote is None: # start of quoted string
+            if quote is None:  # start of quoted string
                 quote = c
             elif quote == c:  # end of quoted string
                 quote = None
             else:
-                field += c    # other quote inside quoted string
+                field += c  # other quote inside quoted string
             continue
-        if quote is None and c == ",": # end of a field
+        if quote is None and c == ",":  # end of a field
             fields.append(field)
             field = ""
         else:
-            field += c        # accumulating a field
+            field += c  # accumulating a field
     if field:
         fields.append(field)  # adding the last field
     return fields
 
+
 def process_options():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--maxwidth', '-m', help="maxwidth", type= int, default = 100)
-    parser.add_argument('--format', '-f', help="format", type= str, default= ".0f")
-    args=parser.parse_args()
+    parser.add_argument('--maxwidth', '-m', help="maxwidth", type=int, default=100)
+    parser.add_argument('--format', '-f', help="format", type=str, default=".0f")
+    args = parser.parse_args()
     maxwidth = args.maxwidth
     format = args.format
-    print (sys.argv[1])
+    print(sys.argv[1])
     if sys.argv[1] in ["-h", "--help"]:
         print("""\
             usage:
@@ -103,6 +104,7 @@ def process_options():
             defaults to "{1}".""".format(maxwidth, format))
         return None, None
     return maxwidth, format
+
 
 def print_end():
     print("</table>")

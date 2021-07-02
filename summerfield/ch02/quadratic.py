@@ -40,7 +40,7 @@ if discriminant == 0:
 else:
     if discriminant > 0:
         root = math.sqrt(discriminant)
-    else: # discriminant < 0
+    else:  # discriminant < 0
         root = cmath.sqrt(discriminant)
     x1 = (-b + root) / (2 * a)
     x2 = (-b - root) / (2 * a)
@@ -51,9 +51,9 @@ if b < 0:
 elif b > 0:
     equation += '+{0}x'.format(b)
 if c < 0:
-        equation += "- {0} ".format(abs(c))
+    equation += "- {0} ".format(abs(c))
 elif c > 0:
-        equation += "+ {0} ".format(c)
+    equation += "+ {0} ".format(c)
 equation += "= 0 \N{RIGHTWARDS ARROW} x = {0}".format(x1)
 if x2 is not None:
     equation += " or x = {0}".format(x2)
