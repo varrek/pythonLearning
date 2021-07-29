@@ -7,12 +7,15 @@ from pathlib import Path
 desiredLeftEye = np.array([44, 64])
 desiredRightEye = np.array([84, 64])
 desiredFaceWidth = desiredFaceHeight = 128
+
+
 def getEyeAngleAndDistance(rightEye, leftEye):
     dY = rightEye[0][1] - leftEye[0][1]
     dX = rightEye[0][0] - leftEye[0][0]
     angle = np.degrees(np.arctan2(dY, dX))
     dist = np.sqrt((dX ** 2) + (dY ** 2))
     return angle, dist
+
 
 df = pd.read_csv('cats.csv')
 for image in glob.iglob('./*.jpg', recursive=True):
