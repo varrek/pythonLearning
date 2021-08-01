@@ -16,10 +16,11 @@ def initialize_shapely_geoms(start, finish, obstacles):
         ob.append(ob[0])
         obstacles_init.append(np.array(ob))
         shapely_polygon = Polygon(ob)
-        obstacles_shapely.append({'distance': shapely_polygon.distance(start), 'obstacle': shapely_polygon})
+        obstacles_shapely.append({'distance_from_start': shapely_polygon.distance(start),
+                                  'distance_to_finish': shapely_polygon.distance(finish), 'obstacle': shapely_polygon})
         x, y = zip(*ob)
         plt.plot(x, y, c='red')
-    obstacles_shapely = sorted(obstacles_shapely, key=lambda k: k['distance'])
+    obstacles_shapely = sorted(obstacles_shapely, key=lambda k: (-k['distance_to_finish']))
 
     return start, finish, line, obstacles_shapely, obstacles_init
 
@@ -41,7 +42,7 @@ def get_line_path(start, finish, line, obstacles):
             else:
                 inter_point = intersection_point
 
-            additional_points.append(inter_point.coords[0])
+            # additional_points.append(inter_point.coords[0])
             for i, j in test:
                 if LineString((i, j)).distance(inter_point) < 1e-8:
                     if finish.distance(Point(i)) < finish.distance(Point(j)):
