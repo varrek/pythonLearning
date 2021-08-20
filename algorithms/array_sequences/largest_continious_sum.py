@@ -1,9 +1,4 @@
 from collections import namedtuple
-testdata_tuple = namedtuple('Testset', ['list',  'result'])
-test_data = [
-    testdata_tuple([1,2,-1,3,4,-1],9),
-    testdata_tuple([1,2,-1,3,4,10,10,-10,-1],29),
-    testdata_tuple([-1,1],1)]
 
 
 def get_largest_continious_sum(list_i):
@@ -21,6 +16,14 @@ def get_largest_continious_sum(list_i):
         sums.append(max(elem_sums))
     result = max(sums)
     return result
+
+
+testdata_tuple = namedtuple('Testset', ['list',  'result'])
+test_data = [
+    testdata_tuple([1,2,-1,3,4,-1],9),
+    testdata_tuple([1,2,-1,3,4,10,10,-10,-1],29),
+    testdata_tuple([-1,1],1)]
+
 
 for data in test_data:
     result = get_largest_continious_sum(data.list)
